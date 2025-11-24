@@ -1,10 +1,20 @@
 import { IAuthState } from "@/types/authType";
 import { createSlice } from "@reduxjs/toolkit"
 import Cookies from "js-cookie"
+import toast from "react-hot-toast";
 
+function getStoredUser() {
+  if (typeof window === "undefined") return null;
+  const user = localStorage.getItem("user");
+  try {
+    return user ? JSON.parse(user) : null;
+  } catch {
+    return null;
+  }
+}
 const initialState:IAuthState = {
     token:Cookies.get("token"),
-    user:localStorage.getItem("user") ? JSON.parse(localStorage.getItem("user")!):null
+    user:getStoredUser()
 }
 
 export const authSlice = createSlice({
@@ -16,6 +26,7 @@ export const authSlice = createSlice({
             state.user=null;
             Cookies.remove("token");
             localStorage.removeItem("user");
+            toast.success("User logged out successfully");
         },
         setAuth: (state,action) => {
             state.token=action.payload.token;
