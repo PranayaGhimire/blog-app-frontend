@@ -10,6 +10,7 @@ import { Button } from "../ui/button";
 import { Label } from "../ui/label";
 import { useDispatch } from "react-redux";
 import { setAuth } from "@/redux/authSlice";
+import {ClipLoader} from "react-spinners"
 
 const LoginForm = () => {
   const dispatch = useDispatch();
@@ -63,7 +64,7 @@ const LoginForm = () => {
             disabled={isPending}
             className="bg-cyan-600 hover:bg-cyan-700 cursor-pointer"
           >
-            Log In
+            {isPending ? <ClipLoader size={28} color="white" /> :'Log In' } 
           </Button>
         </div>
       </form>

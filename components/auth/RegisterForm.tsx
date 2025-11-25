@@ -7,6 +7,7 @@ import {useForm} from "react-hook-form";
 import { IRegister } from "@/types/authType";
 import { useRouter } from "next/navigation";
 import toast from "react-hot-toast";
+import { ClipLoader } from "react-spinners";
 const RegisterForm = () => {
   const router = useRouter();
   const {mutate,isPending} = useRegister();
@@ -46,7 +47,7 @@ const RegisterForm = () => {
               <Input {...register("password")}  type="password" placeholder="john@123" required />
           </div>
           <Button disabled={isPending} className="bg-cyan-600 hover:bg-cyan-700 cursor-pointer">
-            Register
+            {isPending ? <ClipLoader size={28} color="white"/> : 'Register'}
           </Button>
         </div>
       </form>

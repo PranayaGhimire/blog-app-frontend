@@ -13,8 +13,8 @@ function getStoredUser() {
   }
 }
 const initialState:IAuthState = {
-    token:Cookies.get("token"),
-    user:getStoredUser()
+    token:null,
+    user:null
 }
 
 export const authSlice = createSlice({

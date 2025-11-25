@@ -3,11 +3,38 @@ import Link from "next/link"
 import { Button } from "./ui/button"
 import { useDispatch, useSelector } from "react-redux"
 import { RootState } from "@/redux/store"
-import { logout } from "@/redux/authSlice"
+import { logout, setAuth } from "@/redux/authSlice"
+import { useEffect } from "react"
+import Cookies from "js-cookie"
+
+function safeParse(value: string | null) {
+  if (!value) return null;
+  if (value === "undefined") return null;
+  try {
+    return JSON.parse(value);
+  } catch {
+    return null;
+  }
+}
 
 const NavBar = () => {
   const dispatch = useDispatch();
   const token =useSelector((state:RootState) => state.auth.token);
+  const user = useSelector((state:RootState) => state.auth.user);
+  console.log(user);
+  
+   useEffect(() => {
+    // Load stored token + user on client
+    const storedToken = Cookies.get("token");
+    const storedUser = localStorage.getItem("user");
+
+    if (storedToken) {
+      dispatch(setAuth({
+        token: storedToken,
+        user: safeParse(storedUser)
+      }));
+    }
+  }, [dispatch]);
   return (
     <nav className=" flex justify-between items-center p-3 bg-linear-to-bl bg-gray-100 shadow-lg ">
         <div className="text-[18px] font-bold">Blog App</div>
